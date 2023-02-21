@@ -1,13 +1,8 @@
+export type UrlBase = {name: string, url:string}
+
 export type PokemonList = {
     count: number,
-    next: string | undefined,
-    previous: string | undefined,
-    results: PokemonUrls[]
-}
-
-export type PokemonUrls = { 
-    name: string,
-    url: string
+    results: UrlBase[]
 }
 
 export type Pokemon = {
@@ -17,7 +12,26 @@ export type Pokemon = {
     sprites: {front_default: string},
     abilities: [{ability: UrlBase}],
     moves: [{move: UrlBase}],
-    types: [{type: UrlBase}]
+    types: [{type: UrlBase}],
+    species: UrlBase,
+    forms: UrlBase[]
 }
 
-type UrlBase = {name: string, url:string}
+export type Species = {
+    id: number
+    color: UrlBase,
+    has_gender_differences: boolean,
+    evolution_chain: string,
+    habitat: UrlBase,
+    names: [{name: string, language: UrlBase}]
+}
+
+export type EvolutionChain = {
+    id: number,
+    chain: evolution
+}
+
+type evolution = {
+    species: UrlBase,
+    evolves_to: evolution[]
+}

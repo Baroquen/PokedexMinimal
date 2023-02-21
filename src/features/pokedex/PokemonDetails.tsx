@@ -1,64 +1,37 @@
 import { FC } from "react";
-import { Pokemon } from "./types.d";
 import Card from "react-bootstrap/Card";
-import Modal from "react-bootstrap/Modal";
 import ListGroup from "react-bootstrap/ListGroup";
+import { useGetPokemonByNameQuery } from "./pokedexApi";
+import { UrlBaseList } from "../../Components/UrlBaseList"
+import { useParams } from "react-router-dom"
 
-interface PokemonDetailProps {
-  pokemon: Pokemon;
-  display: boolean | undefined;
-  handleClose: () => void;
-}
+export const PokemonDetails: FC = () => {
+  const { name } = useParams()
+  const { data } = useGetPokemonByNameQuery(name);
 
-export const PokemonDetails: FC<PokemonDetailProps> = ({
-  pokemon,
-  display,
-  handleClose,
-}) => {
   return (
-    <Modal show={display} onHide={handleClose}>
-      <Modal.Body>
+    <>
+      {!!data && (
         <Card>
-          <Card.Img
-            variant="top"
-            src={pokemon.sprites.front_default}
-          />
+          <Card.Img variant="top" src={data.sprites.front_default} />
           <Card.Body>
-            <Card.Title className="text-center">{pokemon.name}</Card.Title>
+            <Card.Title className="text-center">{data.name}</Card.Title>
             <Card.Subtitle className="text-center">
-              {pokemon.types
-                .map((x) => <>{x.type.name}</>)
-                .reduce((prev, cur) =>
-                  prev === null 
-                  ? (cur) 
-                  : (<>{prev}, {cur}</>)
-                )}
+              <UrlBaseList data={data.types.map((x) => x.type)} />
             </Card.Subtitle>
           </Card.Body>
           <ListGroup variant="flush">
             <ListGroup.Item>
               <b>Abilities: </b>
-              {pokemon.abilities
-                .map((x) => <>{x.ability.name}</>)
-                .reduce((prev, cur, index) =>
-                  index === 0
-                  ? (cur) 
-                  : (<>{prev}, {cur}</>), <></>
-                )}
+              <UrlBaseList data={data.abilities.map((x) => x.ability)} />
             </ListGroup.Item>
             <ListGroup.Item>
               <b>Moves: </b>
-              {pokemon.moves
-                .map((x) => <>{x.move.name}</>)
-                .reduce((prev, cur, index) =>
-                  index === 0
-                  ? (cur) 
-                  : (<>{prev}, {cur}</>), <></>
-                )}
+               <UrlBaseList data={data.moves.map((x) => x.move)} />
             </ListGroup.Item>
           </ListGroup>
         </Card>
-      </Modal.Body>
-    </Modal>
+      )}
+    </>
   );
 };

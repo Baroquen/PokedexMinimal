@@ -21,3 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+pokemon.json
+pokemon-list.json
+pokemon-form.json
+pokemon-species.json
+evolution-chain.json

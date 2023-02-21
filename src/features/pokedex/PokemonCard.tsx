@@ -1,41 +1,40 @@
-import { FC, useState } from "react";
-import Card from "react-bootstrap/Card";
-import Button from "react-bootstrap/Button";
+import { FC } from "react";
+import { Link } from "react-router-dom";
 import { useGetPokemonByNameQuery } from "./pokedexApi";
-import { PokemonDetails } from "./PokemonDetails";
 import { useAppDispatch } from "../../app/hooks";
-import { Pokemon } from "./types.d";
 import { add } from "../history/historySlice";
+import { Spinner, Card } from "react-bootstrap";
 
 interface PokemonProps {
   name: string;
 }
 
 export const PokemonCard: FC<PokemonProps> = ({ name }: PokemonProps) => {
-  const { data} = useGetPokemonByNameQuery(name);
-  const [isDisplayed, setIsDisplayed] = useState<boolean>(false);
+  const { data, isLoading } = useGetPokemonByNameQuery(name);
   const dispatch = useAppDispatch();
 
-  const handleClick = (pokemon: Pokemon) => {
-    setIsDisplayed(true);
-    dispatch(add(pokemon));
-  };
+  if (!!isLoading) {
+    return (
+      <Card>
+        <Card.Body>
+          <Spinner />
+        </Card.Body>
+      </Card>
+    );
+  }
 
   return (
     <>
-        {!!data && (
-          <>
-            <Button onClick={() => handleClick(data)} className="btn btn-light">
-              <Card>
-                <Card.Img variant="top" src={data.sprites.front_default} />
-                <Card.Body>
-                  <Card.Title className="text-center">{data.name}</Card.Title>
-                </Card.Body>
-              </Card>
-            </Button>
-            <PokemonDetails pokemon={data} display={isDisplayed} handleClose={() => { setIsDisplayed(false); }} />
-          </>
-        )}
-        </>
+      {!!data && (
+        <Link to={`pokemon/${name}`} onClick={() => dispatch(add(data))}>
+          <Card>
+            <Card.Img variant="top" src={data.sprites.front_default} />
+            <Card.Body>
+              <Card.Title className="text-center">{data.name}</Card.Title>
+            </Card.Body>
+          </Card>
+        </Link>
+      )}
+    </>
   );
 };
