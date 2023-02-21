@@ -1,31 +1,25 @@
-import { useState, useEffect } from "react";
+import { FC } from "react";
 import { Row } from "react-bootstrap";
-import { useGetPokemonQuery, PokemonCard, UrlBase } from "./";
+import { useAppSelector } from "../../app/hooks";
+import { PokemonCard } from "../pokedex";
 import { useFilter } from "../../Components/Layout";
 
-export function Pokedex() {
-  const { data } = useGetPokemonQuery();
-  const [display, setDisplay] = useState<UrlBase[]>([]);
+export const History: FC = () => {
+  const searchHistory = useAppSelector((state) => state.history);
   const { filter } = useFilter();
-
-  useEffect(() => {
-    if (!!data) {
-      setDisplay(data.results);
-    }
-  }, [data]);
 
   return (
     <>
       {filter === "" && (
         <Row className="row-cols-md-6">
-          {display.map((pokemon) => {
+          {searchHistory.value.map((pokemon) => {
             return <PokemonCard name={pokemon.name} key={pokemon.name} />;
           })}
         </Row>
       )}
       {filter !== "" && (
         <Row className="row-cols-md-6">
-          {display
+          {searchHistory.value
             .filter((x) => x.name.startsWith(filter))
             .map((pokemon) => {
               return <PokemonCard name={pokemon.name} key={pokemon.name} />;
@@ -34,4 +28,4 @@ export function Pokedex() {
       )}
     </>
   );
-}
+};

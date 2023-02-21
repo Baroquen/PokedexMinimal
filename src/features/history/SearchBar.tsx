@@ -2,7 +2,7 @@ import { FC } from "react";
 import Container from "react-bootstrap/Container";
 
 interface searchBarProps {
-  disabled: boolean;
+  disabled?: boolean;
   onChange: (n: string) => void;
 }
 
