@@ -1,5 +1,4 @@
 import { FC } from "react";
-import Container from "react-bootstrap/Container";
 
 interface searchBarProps {
   disabled?: boolean;
@@ -12,13 +11,11 @@ export const SearchBar: FC<searchBarProps> = ({ disabled, onChange }) => {
   };
 
   return (
-    <Container>
       <input
         type="search"
         placeholder="Pikachu..."
         onChange={handleChange}
         disabled={disabled}
       />
-    </Container>
   );
 };

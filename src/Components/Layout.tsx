@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Outlet, Link, useOutletContext } from "react-router-dom";
+import { Outlet, NavLink, useOutletContext } from "react-router-dom";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import { SearchBar } from "../features/history/SearchBar";
 
@@ -16,19 +16,14 @@ export const Layout: FC = () => {
     <Container>
       <Navbar bg="light" expand="lg">
         <Container fluid>
-          <Navbar.Collapse id="responsive-navbar-nav">
+          <Navbar.Collapse id="navbar">
             <Nav>
-              <Nav.Link>
-                <Link to="/">Home</Link>
-              </Nav.Link>
-              <Nav.Link>
-                <Link to="/history">Recently Viewed</Link>
-              </Nav.Link>
+              <NavLink to="/">Home</NavLink>
+              {" "}
+              <NavLink to="/history">Recently Viewed</NavLink>
             </Nav>
-            <Container className="d-flex right">
-              <SearchBar onChange={onChange} />
-            </Container>
           </Navbar.Collapse>
+          <SearchBar onChange={onChange} />
         </Container>
       </Navbar>
       <Container>

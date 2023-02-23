@@ -1,8 +1,8 @@
 export type UrlBase = {name: string, url:string}
 
-export type PokemonList = {
-    count: number,
-    results: UrlBase[]
+export type Pokedex = {
+    id: number,
+    pokemon_entries: [{entry_number: number, pokemon_species: UrlBase}]
 }
 
 export type Pokemon = {
@@ -12,7 +12,7 @@ export type Pokemon = {
     sprites: {front_default: string},
     abilities: [{ability: UrlBase}],
     moves: [{move: UrlBase}],
-    types: [{type: UrlBase}],
+    types: [{slot: number, type: UrlBase}],
     species: UrlBase,
     forms: UrlBase[]
 }

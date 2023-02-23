@@ -1,27 +1,29 @@
 import { useState, useEffect } from "react";
 import { Row } from "react-bootstrap";
-import { useGetPokemonQuery, PokemonCard, UrlBase } from "./";
+import { useGetPokedexQuery, PokemonCard, UrlBase } from "./";
 import { useFilter } from "../../Components/Layout";
 
 export function Pokedex() {
-  const { data } = useGetPokemonQuery();
+  const { data: pokedex } = useGetPokedexQuery();
   const [display, setDisplay] = useState<UrlBase[]>([]);
   const { filter } = useFilter();
 
   useEffect(() => {
-    if (!!data) {
-      setDisplay(data.results);
+    if (!!pokedex) {
+      setDisplay(
+        pokedex.pokemon_entries.map((pokemon) => pokemon.pokemon_species)
+      );
     }
-  }, [data]);
+  }, [pokedex]);
 
   return (
     <>
       {filter === "" && (
-        <Row className="row-cols-md-6">
-          {display.map((pokemon) => {
-            return <PokemonCard name={pokemon.name} key={pokemon.name} />;
-          })}
-        </Row>
+          <Row className="row-cols-md-6">
+            {display.map((pokemon) => {
+              return <PokemonCard name={pokemon.name} key={pokemon.name} />;
+            })}
+          </Row>
       )}
       {filter !== "" && (
         <Row className="row-cols-md-6">
