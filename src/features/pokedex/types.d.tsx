@@ -14,24 +14,30 @@ export type Pokemon = {
     moves: [{move: UrlBase}],
     types: [{slot: number, type: UrlBase}],
     species: UrlBase,
-    forms: UrlBase[]
+    forms: UrlBase[],
+    location_area_encounter: string,
 }
 
 export type Species = {
     id: number
     color: UrlBase,
     has_gender_differences: boolean,
-    evolution_chain: string,
+    evolution_chain: {url: string},
     habitat: UrlBase,
-    names: [{name: string, language: UrlBase}]
+    names: [{name: string, language: UrlBase}],
+    varieties: [{is_default: boolean, pokemon: UrlBase}]
 }
 
 export type EvolutionChain = {
     id: number,
-    chain: evolution
+    chain: Evolution
 }
 
-type evolution = {
+type Evolution = {
     species: UrlBase,
-    evolves_to: evolution[]
+    evolves_to: Evolution[]
+}
+
+export type LocationAreasEncounters = {
+    locationAreas: [location_areas: UrlBase]
 }
