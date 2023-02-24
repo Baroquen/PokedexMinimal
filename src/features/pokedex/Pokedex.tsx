@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Row } from "react-bootstrap";
 import { useGetPokedexQuery, PokemonCard, UrlBase } from "./";
-import { useFilter } from "../../Components/Layout";
+import { useFilter } from "../../Components/SearchLayout";
 
 export function Pokedex() {
   const { data: pokedex } = useGetPokedexQuery();

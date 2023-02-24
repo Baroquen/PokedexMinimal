@@ -2,7 +2,7 @@ import { FC } from "react";
 import { Row } from "react-bootstrap";
 import { useAppSelector } from "../../app/hooks";
 import { PokemonCard } from "../pokedex";
-import { useFilter } from "../../Components/Layout";
+import { useFilter } from "../../Components/SearchLayout";
 
 export const History: FC = () => {
   const searchHistory = useAppSelector((state) => state.history);

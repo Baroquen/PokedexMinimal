@@ -1,8 +1,16 @@
-import { FC } from "react";
-import { Outlet, NavLink } from "react-router-dom";
+import { FC, useState } from "react";
+import { Outlet, NavLink, useOutletContext } from "react-router-dom";
 import { Container, Nav, Navbar } from "react-bootstrap";
+import { SearchBar } from "../features/history/SearchBar";
 
-export const Layout: FC = () => {
+type ContextType = { filter: string };
+
+export const SearchLayout: FC = () => {
+  const [filter, setFilter] = useState<string>("");
+
+  const onChange = (newValue: string) => {
+    setFilter(newValue);
+  };
 
   const linkStyle = {
     margin: "1rem",
@@ -23,11 +31,16 @@ export const Layout: FC = () => {
             <NavLink style={({isActive}) => isActive ? activeLinkStyle : linkStyle } to="/">Home</NavLink>
             <NavLink style={({isActive}) => isActive ? activeLinkStyle : linkStyle } to="/history">Recently Viewed</NavLink>
           </Nav>
+          <SearchBar onChange={onChange} />
         </Container>
       </Navbar>
       <Container>
-        <Outlet />
+        <Outlet context={{ filter }} />
       </Container>
     </Container>
   );
 };
+
+export function useFilter() {
+  return useOutletContext<ContextType>();
+}
