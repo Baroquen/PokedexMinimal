@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import { Link } from "react-router-dom";
 import { useGetPokemonByNameQuery } from "./pokedexApi";
 import { useAppDispatch } from "../../app/hooks";
@@ -10,7 +10,8 @@ interface PokemonProps {
 }
 
 export const PokemonCard: FC<PokemonProps> = ({ name }: PokemonProps) => {
-  const { data, isLoading } = useGetPokemonByNameQuery(name);
+  const [skip, setSkip] = useState(false)
+  const { data, isLoading, error } = useGetPokemonByNameQuery(name, {skip});
   const dispatch = useAppDispatch();
 
   if (!!isLoading) {
@@ -23,10 +24,18 @@ export const PokemonCard: FC<PokemonProps> = ({ name }: PokemonProps) => {
     );
   }
 
+  if (!!error) {
+    setSkip(true);
+  }
+
   return (
     <>
       {!!data && (
-        <Link to={`pokemon/${name}`} onClick={() => dispatch(add(data))}>
+        <Link
+          style={{ paddingTop: "12px" }}
+          to={`pokemon/${name}`}
+          onClick={() => dispatch(add(data))}
+        >
           <Card>
             <Card.Img variant="top" src={data.sprites.front_default} />
             <Card.Body>
